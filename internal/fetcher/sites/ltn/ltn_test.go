@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/wedojava/fetcher/internal/htmldoc"
+	"github.com/hi20160616/fetcher/internal/htmldoc"
 )
 
 var p = PostFactory("https://news.ltn.com.tw/news/world/breakingnews/3277899")

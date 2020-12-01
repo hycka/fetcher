@@ -14,9 +14,9 @@ func TestCrawl(t *testing.T) {
 			// "https://www.zaobao.com/realtime/world",
 			// "https://www.zaobao.com/news/world",
 			// "https://www.voachinese.com",
-			// "https://www.rfa.org/mandarin/",
+			"https://www.rfa.org/mandarin/",
 			// "https://news.ltn.com.tw/list/breakingnews",
-			"https://www.cna.com.tw/list/aall.aspx",
+			// "https://www.cna.com.tw/list/aall.aspx",
 		})
 
 		log.Println("Sleep a sec ...")

@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/wedojava/gears"
+	"github.com/hi20160616/gears"
 )
 
 type Fetcher struct {

@@ -1,8 +1,8 @@
-module github.com/wedojava/fetcher
+module github.com/hi20160616/fetcher
 
-go 1.14
+go 1.15
 
 require (
-	github.com/wedojava/gears v0.0.0-20200715124224-d12360e95669
-	golang.org/x/net v0.0.0-20200602114024-627f9648deb9
+	github.com/hi20160616/gears v0.0.0-20201201083715-3454c2a9d4d7
+	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b
 )

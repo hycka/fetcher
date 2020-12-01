@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/wedojava/fetcher/internal/fetcher"
+	"github.com/hi20160616/fetcher/internal/fetcher"
 )
 
 func main() {

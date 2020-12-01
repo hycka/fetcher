@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/wedojava/fetcher/internal/htmldoc"
-	"github.com/wedojava/gears"
+	"github.com/hi20160616/fetcher/internal/htmldoc"
+	"github.com/hi20160616/gears"
 	"golang.org/x/net/html"
 )
 

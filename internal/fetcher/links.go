@@ -7,8 +7,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/wedojava/fetcher/internal/htmldoc"
-	"github.com/wedojava/gears"
+	"github.com/hi20160616/fetcher/internal/htmldoc"
+	"github.com/hi20160616/gears"
 )
 
 func (f *Fetcher) SetLinks() error {

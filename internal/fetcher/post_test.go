@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/wedojava/fetcher/internal/htmldoc"
+	"github.com/hi20160616/fetcher/internal/htmldoc"
 )
 
 func TestSetAndSavePost(t *testing.T) {

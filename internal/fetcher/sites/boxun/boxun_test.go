@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/wedojava/fetcher/internal/htmldoc"
+	"github.com/hi20160616/fetcher/internal/htmldoc"
 )
 
 func PostFactory(rawurl string) *Post {
