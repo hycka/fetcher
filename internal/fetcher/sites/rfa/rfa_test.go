@@ -23,7 +23,7 @@ func PostFactory(rawurl string) *Post {
 
 func TestSetPost(t *testing.T) {
 	// p := PostFactory("https://www.rfa.org/mandarin/Xinwen/6-07082020110802.html")
-	p := PostFactory("https://www.rfa.org/mandarin/yataibaodao/gangtai/hcm2-07132020090240.html")
+	p := PostFactory("https://www.rfa.org//mandarin/yataibaodao/huanjing/hj-12012020095853.html")
 	raw, doc, err := htmldoc.GetRawAndDoc(p.URL, 1*time.Minute)
 	if err != nil {
 		t.Errorf("GetRawAndDoc err: %v", err)
@@ -34,6 +34,7 @@ func TestSetPost(t *testing.T) {
 	}
 	fmt.Println(p.Title)
 	fmt.Println(p.Body)
+	fmt.Println(p.Date)
 }
 
 func TestRfa(t *testing.T) {

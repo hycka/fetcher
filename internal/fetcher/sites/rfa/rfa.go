@@ -42,7 +42,7 @@ func SetDate(p *Post) error {
 	if p.DOC == nil {
 		return fmt.Errorf("[-] p.DOC is nil")
 	}
-	doc := htmldoc.ElementsByTagAndType(p.DOC, "script", "application/ld+json")
+	doc := htmldoc.ElementsByTagAndId(p.DOC, "span", "story_date")
 	if doc == nil {
 		return errors.New("[-] rfa SetDate err, cannot get target nodes.")
 	}
@@ -50,10 +50,7 @@ func SetDate(p *Post) error {
 	if d.Type != html.TextNode {
 		return errors.New("[-] rfa SetDate err, target node have no text.")
 	}
-	raw := d.Data
-	re := regexp.MustCompile(`"date\w*?":\s*?"(.*?)"`)
-	rs := re.FindAllStringSubmatch(raw, -1)
-	p.Date = rs[0][1] // dateModified -> rs[0][1], datePublished -> rs[1][1]
+	p.Date = d.Data + "T12:12:12+08:00"
 	return nil
 }
 
