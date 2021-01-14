@@ -24,12 +24,19 @@ func TestSetLinks(t *testing.T) {
 	//         "https://news.ltn.com.tw/news/politics/breakingnews/3278225",
 	//         "https://news.ltn.com.tw/news/politics/breakingnews/3278170",
 	// }
-	u, err := url.Parse("https://www.cna.com.tw/list/aall.aspx")
+	// u, err := url.Parse("https://www.cna.com.tw/list/aall.aspx")
+	// assertLinks := []string{
+	//         "https://www.cna.com.tw/news/aopl/202009290075.aspx",
+	//         "https://www.cna.com.tw/news/firstnews/202009290051.aspx",
+	//         "https://www.cna.com.tw/news/acn/202009290063.aspx",
+	//         "https://www.cna.com.tw/news/aipl/202009290055.aspx",
+	// }
+	u, err := url.Parse("https://www.bbc.com/zhongwen/simp/topics/ck2l9z0em07t")
 	assertLinks := []string{
-		"https://www.cna.com.tw/news/aopl/202009290075.aspx",
-		"https://www.cna.com.tw/news/firstnews/202009290051.aspx",
-		"https://www.cna.com.tw/news/acn/202009290063.aspx",
-		"https://www.cna.com.tw/news/aipl/202009290055.aspx",
+		"/zhongwen/simp/world-55655858",
+		"/zhongwen/simp/world-55653976",
+		"/zhongwen/simp/science-55632120",
+		"/zhongwen/simp/chinese-news-55635500",
 	}
 	if err != nil {
 		t.Errorf("Url Parse fail!\n%s", err)

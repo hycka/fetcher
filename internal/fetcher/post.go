@@ -11,11 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hi20160616/fetcher/internal/fetcher/sites/boxun"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/cna"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/dwnews"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/ltn"
-	"github.com/hi20160616/fetcher/internal/fetcher/sites/rfa"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/voachinese"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/zaobao"
 	"github.com/hi20160616/fetcher/internal/htmldoc"
@@ -68,12 +66,6 @@ func (p *Post) TreatPost() error {
 	}
 	// Set post
 	switch p.Domain {
-	case "www.boxun.com":
-		post := boxun.Post(*p)
-		if err := boxun.SetPost(&post); err != nil {
-			return err
-		}
-		*p = Post(post)
 	case "www.dwnews.com":
 		post := dwnews.Post(*p)
 		if err := dwnews.SetPost(&post); err != nil {
@@ -83,12 +75,6 @@ func (p *Post) TreatPost() error {
 	case "www.voachinese.com":
 		post := voachinese.Post(*p)
 		if err := voachinese.SetPost(&post); err != nil {
-			return err
-		}
-		*p = Post(post)
-	case "www.rfa.org":
-		post := rfa.Post(*p)
-		if err := rfa.SetPost(&post); err != nil {
 			return err
 		}
 		*p = Post(post)

@@ -20,8 +20,6 @@ func (f *Fetcher) SetLinks() error {
 	links = gears.StrSliceDeDupl(links)
 	hostname := f.Entrance.Hostname()
 	switch hostname {
-	case "www.boxun.com":
-		f.Links = LinksFilter(links, `.*?/news/.*/\d*.shtml`)
 	case "www.dwnews.com":
 		f.Links = LinksFilter(links, `.*?/.*?/\d{8}/`)
 		KickOutLinksMatchPath(&f.Links, "zone")
@@ -31,9 +29,6 @@ func (f *Fetcher) SetLinks() error {
 		l2 := LinksFilter(links, `.*?/a/.*-.*.html`)
 		f.Links = append(l1, l2...)
 		KickOutLinksMatchPath(&f.Links, "voaweishi")
-	case "www.rfa.org":
-		f.Links = LinksFilter(links, `.*?/.*?-\d*.html`)
-		KickOutLinksMatchPath(&f.Links, "about")
 	case "www.zaobao.com":
 		newsWorld := LinksFilter(links, `.*?/news/world/.*`)
 		newsChina := LinksFilter(links, `.*?/news/china/.*`)
@@ -48,6 +43,8 @@ func (f *Fetcher) SetLinks() error {
 		newsPolitical := LinksFilter(links, `.*?/news/aipl/.*`)
 		newsTW := LinksFilter(links, `.*?/news/acn/.*`)
 		f.Links = append(append(append(newsFirst, newsWorld...), newsPolitical...), newsTW...)
+	case "www.bbc.com":
+		f.Links = LinksFilter(links, `/zhongwen/simp/.*-\d*`)
 	}
 	return nil
 }
