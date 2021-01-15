@@ -40,7 +40,7 @@ func SetPost(p *Post) error {
 
 func setDate(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	metas := htmldoc.MetasByProperty(p.DOC, "article:published_time")
 	cs := []string{}
@@ -60,11 +60,11 @@ func setDate(p *Post) error {
 
 func setTitle(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	n := htmldoc.ElementsByTag(p.DOC, "title")
 	if n == nil {
-		return fmt.Errorf("[-] there is no element <title>")
+		return fmt.Errorf("there is no element <title>")
 	}
 	title := n[0].FirstChild.Data
 	if strings.Contains(title, "- 娛樂") ||
@@ -90,7 +90,7 @@ func setTitle(p *Post) error {
 
 func setBody(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	b, err := ltn(p)
 	if err != nil {
@@ -107,7 +107,7 @@ func setBody(p *Post) error {
 
 func ltn(p *Post) (string, error) {
 	if p.Raw == nil {
-		return "", fmt.Errorf("[-] p.Raw is nil")
+		return "", fmt.Errorf("p.Raw is nil")
 	}
 	raw := p.Raw
 	// Fetch content nodes

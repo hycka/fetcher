@@ -38,7 +38,7 @@ func SetPost(p *Post) error {
 
 func SetDate(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	metas := htmldoc.MetasByName(p.DOC, "parsely-pub-date")
 	cs := []string{}
@@ -58,11 +58,11 @@ func SetDate(p *Post) error {
 
 func SetTitle(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	n := htmldoc.ElementsByTag(p.DOC, "title")
 	if n == nil {
-		return fmt.Errorf("[-] there is no element <title>")
+		return fmt.Errorf("there is no element <title>")
 	}
 	title := n[0].FirstChild.Data
 	if strings.Contains(title, "[图集]") {
@@ -77,7 +77,7 @@ func SetTitle(p *Post) error {
 
 func SetBody(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	b, err := Dwnews(p)
 	if err != nil {
@@ -94,14 +94,14 @@ func SetBody(p *Post) error {
 
 func Dwnews(p *Post) (string, error) {
 	if p.DOC == nil {
-		return "", fmt.Errorf("[-] p.DOC is nil")
+		return "", fmt.Errorf("p.DOC is nil")
 	}
 	doc := p.DOC
 	body := ""
 	// Fetch content nodes
 	nodes := htmldoc.ElementsByTag(doc, "article")
 	if len(nodes) == 0 {
-		return "", errors.New("[-] There is no tag named `<article>` from: " + p.URL.String())
+		return "", errors.New("There is no tag named `<article>` from: " + p.URL.String())
 	}
 	articleDoc := nodes[0].FirstChild
 	plist := htmldoc.ElementsByTag(articleDoc, "p")

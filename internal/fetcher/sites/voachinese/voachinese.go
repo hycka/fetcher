@@ -38,13 +38,13 @@ func SetPost(p *Post) error {
 
 func SetDate(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	doc := htmldoc.ElementsByTag(p.DOC, "time")
 	// p.Date = doc[0].Attr[0].Val // short but not robust enough
 	d := []string{}
 	if doc == nil {
-		return fmt.Errorf("[-] there is no element <time>")
+		return fmt.Errorf("there is no element <time>")
 	}
 	for _, a := range doc[0].Attr {
 		if a.Key == "datetime" {
@@ -57,11 +57,11 @@ func SetDate(p *Post) error {
 
 func SetTitle(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	n := htmldoc.ElementsByTag(p.DOC, "title")
 	if n == nil {
-		return fmt.Errorf("[-] there is no element <title>")
+		return fmt.Errorf("there is no element <title>")
 	}
 	title := n[0].FirstChild.Data
 	title = strings.TrimSpace(title)
@@ -72,7 +72,7 @@ func SetTitle(p *Post) error {
 
 func SetBody(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	b, err := Voa(p)
 	if err != nil {
@@ -89,7 +89,7 @@ func SetBody(p *Post) error {
 
 func Voa(p *Post) (string, error) {
 	if p.DOC == nil {
-		return "", fmt.Errorf("[-] p.DOC is nil")
+		return "", fmt.Errorf("p.DOC is nil")
 
 	}
 	doc := p.DOC
@@ -97,7 +97,7 @@ func Voa(p *Post) (string, error) {
 	// Fetch content nodes
 	nodes := htmldoc.ElementsByTagAndClass(doc, "div", "wsw")
 	if nodes == nil {
-		return "", errors.New(`[-] There is no element match '<div class="wsw">'`)
+		return "", errors.New(`There is no element match '<div class="wsw">'`)
 	}
 	plist := htmldoc.ElementsByTag(nodes[0], "p")
 	for _, v := range plist {

@@ -40,7 +40,7 @@ func SetPost(p *Post) error {
 
 func setDate(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	metas := htmldoc.MetasByItemprop(p.DOC, "dateModified")
 	cs := []string{}
@@ -78,11 +78,11 @@ func setDate(p *Post) error {
 
 func setTitle(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	n := htmldoc.ElementsByTag(p.DOC, "title")
 	if n == nil {
-		return fmt.Errorf("[-] there is no element <title>")
+		return fmt.Errorf("there is no element <title>")
 	}
 	title := n[0].FirstChild.Data
 	if strings.Contains(title, "| 娛樂 |") ||
@@ -107,7 +107,7 @@ func setTitle(p *Post) error {
 
 func setBody(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	b, err := cna(p)
 	if err != nil {
@@ -124,14 +124,14 @@ func setBody(p *Post) error {
 
 func cna(p *Post) (string, error) {
 	if p.DOC == nil {
-		return "", fmt.Errorf("[-] p.DOC is nil")
+		return "", fmt.Errorf("p.DOC is nil")
 	}
 	doc := p.DOC
 	body := ""
 	// Fetch content nodes
 	nodes := htmldoc.ElementsByTagAndClass(doc, "div", "paragraph")
 	if len(nodes) == 0 {
-		return "", errors.New("[-] There is no element class is paragraph` from: " + p.URL.String())
+		return "", errors.New("There is no element class is paragraph` from: " + p.URL.String())
 	}
 	n := nodes[0]
 	plist := htmldoc.ElementsByTag(n, "h2", "p")

@@ -38,7 +38,7 @@ func SetPost(p *Post) error {
 
 func SetDate(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	metas := htmldoc.MetasByProperty(p.DOC, "article:modified_time")
 	cs := []string{}
@@ -58,11 +58,11 @@ func SetDate(p *Post) error {
 
 func SetTitle(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	n := htmldoc.ElementsByTag(p.DOC, "title")
 	if n == nil {
-		return fmt.Errorf("[-] there is no element <title>")
+		return fmt.Errorf("there is no element <title>")
 	}
 	title := n[0].FirstChild.Data
 	title = strings.ReplaceAll(title, " | 联合早报网", "")
@@ -75,7 +75,7 @@ func SetTitle(p *Post) error {
 
 func SetBody(p *Post) error {
 	if p.DOC == nil {
-		return fmt.Errorf("[-] p.DOC is nil")
+		return fmt.Errorf("p.DOC is nil")
 	}
 	b, err := Zaobao(p)
 	if err != nil {
@@ -92,7 +92,7 @@ func SetBody(p *Post) error {
 
 func Zaobao(p *Post) (string, error) {
 	if p.DOC == nil {
-		return "", fmt.Errorf("[-] p.DOC is nil")
+		return "", fmt.Errorf("p.DOC is nil")
 	}
 	doc := p.DOC
 	body := ""
@@ -102,7 +102,7 @@ func Zaobao(p *Post) (string, error) {
 		nodes = htmldoc.ElementsByTagAndClass(doc, "div", "article-content-rawhtml")
 	}
 	if len(nodes) == 0 {
-		return "", errors.New("[-] There is no tag named `<article>` from: " + p.URL.String())
+		return "", errors.New("There is no tag named `<article>` from: " + p.URL.String())
 	}
 	plist := htmldoc.ElementsByTag(nodes[0], "p")
 	for _, v := range plist {
