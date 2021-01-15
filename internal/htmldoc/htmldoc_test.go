@@ -40,6 +40,24 @@ func TestDivWithAttr2(t *testing.T) {
 	fmt.Println(string(tc))
 }
 
+func TestElementsByTag(t *testing.T) {
+	s, err := ioutil.ReadFile("./bbc.html")
+	if err != nil {
+		t.Errorf("read file err: %v", err)
+	}
+	doc, err := html.Parse(bytes.NewReader(s))
+	if err != nil {
+		t.Errorf("GetRawAndDoc err: %v", err)
+	}
+	tc := ElementsByTag(doc, "main")
+	a := ElementsByTag(tc[0], "p")
+	for _, v := range a {
+		if v.FirstChild != nil {
+			fmt.Println(v.FirstChild.Data)
+		}
+	}
+}
+
 func TestElementsByTagAndClass(t *testing.T) {
 	s, err := ioutil.ReadFile("./test.html")
 	if err != nil {
@@ -57,6 +75,7 @@ func TestElementsByTagAndClass(t *testing.T) {
 		}
 	}
 }
+
 func TestElementsByTagAndClass2(t *testing.T) {
 	if err != nil {
 		t.Errorf("url Parse err: %v", err)
