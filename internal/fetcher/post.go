@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hi20160616/fetcher/internal/fetcher/sites/bbc"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/cna"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/dwnews"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/ltn"
@@ -93,6 +94,12 @@ func (p *Post) TreatPost() error {
 	case "www.cna.com.tw":
 		post := cna.Post(*p)
 		if err := cna.SetPost(&post); err != nil {
+			return err
+		}
+		*p = Post(post)
+	case "www.bbc.com":
+		post := bbc.Post(*p)
+		if err := bbc.SetPost(&post); err != nil {
 			return err
 		}
 		*p = Post(post)

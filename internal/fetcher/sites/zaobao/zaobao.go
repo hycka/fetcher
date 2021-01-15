@@ -50,7 +50,7 @@ func SetDate(p *Post) error {
 		}
 	}
 	if len(cs) <= 0 {
-		return fmt.Errorf("dwnews SetData got nothing.")
+		return fmt.Errorf("zaobao SetData got nothing.")
 	}
 	p.Date = cs[0]
 	return nil

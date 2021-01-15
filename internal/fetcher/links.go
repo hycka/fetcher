@@ -44,7 +44,7 @@ func (f *Fetcher) SetLinks() error {
 		newsTW := LinksFilter(links, `.*?/news/acn/.*`)
 		f.Links = append(append(append(newsFirst, newsWorld...), newsPolitical...), newsTW...)
 	case "www.bbc.com":
-		f.Links = LinksFilter(links, `/zhongwen/simp/.*-\d*`)
+		f.Links = LinksFilter(links, `.*?/zhongwen/simp/.*-\d*`)
 	}
 	return nil
 }
