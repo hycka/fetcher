@@ -41,11 +41,11 @@ func TestDivWithAttr2(t *testing.T) {
 }
 
 func TestElementsByTag(t *testing.T) {
-	s, err := ioutil.ReadFile("./bbc.html")
+	u, err = url.Parse("https://www.bbc.com/zhongwen/simp/world-55655858")
 	if err != nil {
-		t.Errorf("read file err: %v", err)
+		t.Errorf("url Parse err: %v", err)
 	}
-	doc, err := html.Parse(bytes.NewReader(s))
+	_, doc, err := GetRawAndDoc(u, 1*time.Minute)
 	if err != nil {
 		t.Errorf("GetRawAndDoc err: %v", err)
 	}
