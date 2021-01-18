@@ -13,7 +13,7 @@ func TestSetAndSavePost(t *testing.T) {
 	// p := PostFactory("https://www.dwnews.com/经济/60203253")
 	// p := PostFactory("https://www.rfa.org/mandarin/Xinwen/6-07082020110802.html") // The wrong one
 	// p := PostFactory("https://www.zaobao.com/realtime/world/story20200825-1079575")
-	p := PostFactory("https://www.cna.com.tw/news/aopl/202009290075.aspx")
+	p := NewPost("https://www.cna.com.tw/news/aopl/202009290075.aspx")
 	raw, doc, err := htmldoc.GetRawAndDoc(p.URL, 1*time.Minute)
 	if err != nil {
 		t.Errorf("GetRawAndDoC error: %v", err)
@@ -41,7 +41,7 @@ func TestTreatPost(t *testing.T) {
 		"https://www.cna.com.tw/news/aopl/202009290075.aspx",
 	}
 	for _, tc := range tcs {
-		p := PostFactory(tc)
+		p := NewPost(tc)
 		err := p.TreatPost()
 		if err != nil {
 			log.Println(err)

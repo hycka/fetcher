@@ -11,7 +11,8 @@ import (
 	"github.com/hi20160616/gears"
 )
 
-func (f *Fetcher) SetLinks() error {
+// LinksInit fetch all links from entrance of f, save to f
+func (f *Fetcher) LinksInit() error {
 	links, err := htmldoc.ExtractLinks(f.Entrance.String())
 	if err != nil {
 		log.Printf(`can't extract links from "%s": %s`, f.Entrance.String(), err)

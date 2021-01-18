@@ -38,7 +38,7 @@ type Paragraph struct {
 	Content string
 }
 
-func PostFactory(rawurl string) *Post {
+func NewPost(rawurl string) *Post {
 	url, err := url.Parse(rawurl)
 	if err != nil {
 		log.Printf("url parse err: %s", err)
@@ -50,6 +50,7 @@ func PostFactory(rawurl string) *Post {
 }
 
 // TODO: use func init
+// PostInit open url and get raw and doc
 func (p *Post) PostInit() error {
 	raw, doc, err := htmldoc.GetRawAndDoc(p.URL, 1*time.Minute)
 	if err != nil {

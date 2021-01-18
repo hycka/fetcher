@@ -17,7 +17,7 @@ type Fetcher struct {
 	Links    []string
 }
 
-func FetcherFactory(site string) *Fetcher {
+func NewFetcher(site string) *Fetcher {
 	u, err := url.Parse(site)
 	if err != nil {
 		log.Printf("url parse err: %s", err)
@@ -45,10 +45,10 @@ func Crawl(_url string) {
 			PanicLog(e)
 		}
 	}()
-	f := FetcherFactory(_url)
+	f := NewFetcher(_url)
 	log.Printf("[*] Deal with: [%s]\n", _url)
 	log.Println("[*] Fetch links ...")
-	if err := f.SetLinks(); err != nil { // f.Links update to the _url website is.
+	if err := f.LinksInit(); err != nil { // f.Links update to the _url website is.
 		log.Println(err)
 		// if links cannot fetch sleep 1 minute then continue
 		time.Sleep(1 * time.Minute)
@@ -59,9 +59,9 @@ func Crawl(_url string) {
 	// GetNews then compare via md5 and Save or Rewrite news exist
 	log.Println("[*] Get news ...")
 	for _, link := range f.Links {
-		post := PostFactory(link)
+		post := NewPost(link)
 		if err := post.TreatPost(); err != nil {
-			errMsg := "[-] TreatPost error occur on: " + link
+			errMsg := "TreatPost error occur on: " + link
 			log.Println(errMsg)
 			log.Println(err)
 			ErrLog(errMsg + " " + err.Error())
@@ -74,7 +74,7 @@ func Crawl(_url string) {
 // DelRoutine remove files in folder days ago
 func DelRoutine(folder string, n int) error {
 	if !gears.Exists(folder) {
-		fmt.Printf("\n[-] DelRoutine() err: Folder(%s) does not exist.\n", folder)
+		fmt.Printf("\nDelRoutine() err: Folder(%s) does not exist.\n", folder)
 		return nil
 	}
 	// append files to d not be removed

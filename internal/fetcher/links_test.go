@@ -44,7 +44,7 @@ func TestSetLinks(t *testing.T) {
 	var f = &Fetcher{
 		Entrance: u,
 	}
-	f.SetLinks()
+	f.LinksInit()
 	shot := 0
 	for _, link := range f.Links {
 		for _, v := range assertLinks {
