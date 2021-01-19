@@ -18,3 +18,4 @@ vendor/
 .ipynb_checkpoints/
 dist/
 release/
+wwwroot/

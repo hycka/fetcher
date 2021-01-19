@@ -8,9 +8,7 @@ import (
 )
 
 func main() {
-	// year := strconv.Itoa(time.Now().Year())
-	sites := []string{
-		// expand fetch range need update cna.go function: setTitle
+	worklist := []string{
 		"https://www.cna.com.tw/list/aopl.aspx",           // 国际
 		"https://news.ltn.com.tw/list/breakingnews/world", // 国际
 		"https://www.zaobao.com/realtime/world",
@@ -26,15 +24,11 @@ func main() {
 		"https://www.dwnews.com/zone/10000123",
 		"https://www.voachinese.com",
 		"https://www.voachinese.com/z/1739",
-		// "https://www.rfa.org/mandarin/",
-		// "https://www.rfa.org/mandarin/Xinwen/story_archive?year=" + year,
-		// "https://www.rfa.org/mandarin/yataibaodao/story_archive?year=" + year,
-		// "https://www.boxun.com/rolling.shtml",
 		"https://www.bbc.com/zhongwen/simp/topics/ck2l9z0em07t",
 	}
 	for {
-		fetcher.BreadthFirst(fetcher.Crawl, sites)
-		log.Println("Hold a sec ...")
+		fetcher.BreadthFirst(fetcher.Crawl, worklist)
+		log.Println("Sleep 5 minutes...")
 		time.Sleep(5 * time.Minute)
 	}
 }

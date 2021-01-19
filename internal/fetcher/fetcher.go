@@ -64,7 +64,6 @@ func Crawl(_url string) {
 			errMsg := "TreatPost error occur on: " + link
 			log.Println(errMsg)
 			log.Println(err)
-			ErrLog(errMsg + " " + err.Error())
 		}
 	}
 	// Remove files 3 days ago
@@ -120,19 +119,5 @@ func PanicLog(_err error) error {
 	write.WriteString("[" + time.Now().Format(time.RFC3339) + "]--------------------------------------\n")
 	write.WriteString(_err.Error() + "\n")
 	write.Flush()
-	return nil
-}
-
-func ErrLog(msg string) error {
-	// filePath := "./errLog.txt"
-	// file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
-	// if err != nil {
-	//         return err
-	// }
-	// defer file.Close()
-	// write := bufio.NewWriter(file)
-	// write.WriteString("[" + time.Now().Format(time.RFC3339) + "]--------------------------------------\n")
-	// write.WriteString(msg + "\n")
-	// write.Flush()
 	return nil
 }
