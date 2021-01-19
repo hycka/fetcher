@@ -60,13 +60,8 @@ func (p *Post) PostInit() error {
 	return nil
 }
 
-// TreatPost get post things and set to `p` then save it.
-func (p *Post) TreatPost() error {
-	// Init post
-	if err := p.PostInit(); err != nil {
-		return err
-	}
-	// Set post
+// RoutePost will switch post to the right dealer.
+func (p *Post) RoutePost() error {
 	switch p.Domain {
 	case "www.dwnews.com":
 		post := dwnews.Post(*p)
@@ -106,6 +101,19 @@ func (p *Post) TreatPost() error {
 		*p = Post(post)
 	default:
 		return fmt.Errorf("switch no case on: %s", p.Domain)
+	}
+	return nil
+}
+
+// TreatPost get post things and set to `p` then save it.
+func (p *Post) TreatPost() error {
+	// Init post
+	if err := p.PostInit(); err != nil {
+		return err
+	}
+	// Set post
+	if err := p.RoutePost(); err != nil {
+		return err
 	}
 	// Save post to file
 	if err := p.setFilename(); err != nil {
