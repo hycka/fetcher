@@ -21,22 +21,23 @@ type Post struct {
 	Body     string
 	Date     string
 	Filename string
+	Err      error
 }
 
 func SetPost(p *Post) error {
-	if err := SetDate(p); err != nil {
-		return err
+	if p.Err != nil {
+		return p.Err
 	}
-	if err := SetTitle(p); err != nil {
-		return err
-	}
-	if err := SetBody(p); err != nil {
-		return err
-	}
-	return nil
+	p.Err = setDate(p)
+	p.Err = setTitle(p)
+	p.Err = setBody(p)
+	return p.Err
 }
 
-func SetDate(p *Post) error {
+func setDate(p *Post) error {
+	if p.Err != nil {
+		return p.Err
+	}
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
@@ -50,24 +51,24 @@ func SetDate(p *Post) error {
 		}
 	}
 	if len(cs) <= 0 {
-		return fmt.Errorf("bbc SetData got nothing.")
+		return fmt.Errorf("bbc setData got nothing.")
 	}
 	p.Date = cs[0]
 	return nil
 }
 
-func SetTitle(p *Post) error {
+func setTitle(p *Post) error {
+	if p.Err != nil {
+		return p.Err
+	}
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
 	n := htmldoc.ElementsByTag(p.DOC, "title")
 	if n == nil {
-		return fmt.Errorf("there is no element <title>")
+		return fmt.Errorf("err at 69L, there is no element <title>")
 	}
 	title := n[0].FirstChild.Data
-	if strings.Contains(title, "[图集]") {
-		return fmt.Errorf("[!] Picture news ignored.")
-	}
 	title = strings.ReplaceAll(title, " - BBC News 中文", "")
 	title = strings.TrimSpace(title)
 	gears.ReplaceIllegalChar(&title)
@@ -75,11 +76,14 @@ func SetTitle(p *Post) error {
 	return nil
 }
 
-func SetBody(p *Post) error {
+func setBody(p *Post) error {
+	if p.Err != nil {
+		return p.Err
+	}
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
-	b, err := BBC(p)
+	b, err := bbc(p)
 	if err != nil {
 		return err
 	}
@@ -92,7 +96,10 @@ func SetBody(p *Post) error {
 	return nil
 }
 
-func BBC(p *Post) (string, error) {
+func bbc(p *Post) (string, error) {
+	if p.Err != nil {
+		return "", p.Err
+	}
 	if p.DOC == nil {
 		return "", fmt.Errorf("p.DOC is nil")
 	}
@@ -101,7 +108,7 @@ func BBC(p *Post) (string, error) {
 	// Fetch content nodes
 	nodes := htmldoc.ElementsByTag(doc, "main")
 	if len(nodes) == 0 {
-		return "", errors.New("There is no tag named `<article>` from: " + p.URL.String())
+		return "", errors.New("err at 111L, ElementsByTag match nothing from: " + p.URL.String())
 	}
 	articleDoc := nodes[0]
 	plist := htmldoc.ElementsByTag(articleDoc, "h2", "p")

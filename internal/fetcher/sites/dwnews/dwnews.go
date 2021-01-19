@@ -21,22 +21,23 @@ type Post struct {
 	Body     string
 	Date     string
 	Filename string
+	Err      error
 }
 
 func SetPost(p *Post) error {
-	if err := SetDate(p); err != nil {
-		return err
+	if p.Err != nil {
+		return p.Err
 	}
-	if err := SetTitle(p); err != nil {
-		return err
-	}
-	if err := SetBody(p); err != nil {
-		return err
-	}
-	return nil
+	p.Err = setDate(p)
+	p.Err = setTitle(p)
+	p.Err = setBody(p)
+	return p.Err
 }
 
-func SetDate(p *Post) error {
+func setDate(p *Post) error {
+	if p.Err != nil {
+		return p.Err
+	}
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
@@ -50,13 +51,16 @@ func SetDate(p *Post) error {
 		}
 	}
 	if len(cs) <= 0 {
-		return fmt.Errorf("dwnews SetData got nothing.")
+		return fmt.Errorf("dwnews setData got nothing.")
 	}
 	p.Date = cs[0]
 	return nil
 }
 
-func SetTitle(p *Post) error {
+func setTitle(p *Post) error {
+	if p.Err != nil {
+		return p.Err
+	}
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
@@ -75,11 +79,14 @@ func SetTitle(p *Post) error {
 	return nil
 }
 
-func SetBody(p *Post) error {
+func setBody(p *Post) error {
+	if p.Err != nil {
+		return p.Err
+	}
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
-	b, err := Dwnews(p)
+	b, err := dwnews(p)
 	if err != nil {
 		return err
 	}
@@ -92,7 +99,10 @@ func SetBody(p *Post) error {
 	return nil
 }
 
-func Dwnews(p *Post) (string, error) {
+func dwnews(p *Post) (string, error) {
+	if p.Err != nil {
+		return "", p.Err
+	}
 	if p.DOC == nil {
 		return "", fmt.Errorf("p.DOC is nil")
 	}

@@ -29,7 +29,7 @@ func TestSetDate(t *testing.T) {
 		t.Errorf("GetRawAndDoc err: %v", err)
 	}
 	p.Raw, p.DOC = raw, doc
-	if err := SetDate(p); err != nil {
+	if err := setDate(p); err != nil {
 		t.Errorf("test SetPost err: %v", doc)
 	}
 	want := "2020-08-30T07:48:25+08:00"
@@ -44,7 +44,7 @@ func TestSetTitle(t *testing.T) {
 		t.Errorf("GetRawAndDoc err: %v", err)
 	}
 	p.Raw, p.DOC = raw, doc
-	if err := SetTitle(p); err != nil {
+	if err := setTitle(p); err != nil {
 		t.Errorf("test SetPost err: %v", doc)
 	}
 	want := "国际特稿：美国副总统候选人 哈里斯魅力多元"
@@ -59,7 +59,7 @@ func TestZaobao(t *testing.T) {
 		t.Errorf("GetRawAndDoc err: %v", err)
 	}
 	p.Raw, p.DOC = raw, doc
-	tc, err := Zaobao(p)
+	tc, err := zaobao(p)
 	fmt.Println(tc)
 }
 

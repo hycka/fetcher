@@ -23,22 +23,23 @@ type Post struct {
 	Body     string
 	Date     string
 	Filename string
+	Err      error
 }
 
 func SetPost(p *Post) error {
-	if err := setDate(p); err != nil {
-		return err
+	if p.Err != nil {
+		return p.Err
 	}
-	if err := setTitle(p); err != nil {
-		return err
-	}
-	if err := setBody(p); err != nil {
-		return err
-	}
-	return nil
+	p.Err = setDate(p)
+	p.Err = setTitle(p)
+	p.Err = setBody(p)
+	return p.Err
 }
 
 func setDate(p *Post) error {
+	if p.Err != nil {
+		return p.Err
+	}
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
@@ -59,6 +60,9 @@ func setDate(p *Post) error {
 }
 
 func setTitle(p *Post) error {
+	if p.Err != nil {
+		return p.Err
+	}
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
@@ -89,6 +93,9 @@ func setTitle(p *Post) error {
 }
 
 func setBody(p *Post) error {
+	if p.Err != nil {
+		return p.Err
+	}
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
@@ -106,6 +113,9 @@ func setBody(p *Post) error {
 }
 
 func ltn(p *Post) (string, error) {
+	if p.Err != nil {
+		return "", p.Err
+	}
 	if p.Raw == nil {
 		return "", fmt.Errorf("p.Raw is nil")
 	}

@@ -28,8 +28,8 @@ func TestSetDate(t *testing.T) {
 		t.Errorf("GetRawAndDoc err: %v", err)
 	}
 	p.Raw, p.DOC = raw, doc
-	if err := SetDate(p); err != nil {
-		t.Errorf("test SetPost err: %v", doc)
+	if err := setDate(p); err != nil {
+		t.Errorf("test setPost err: %v", doc)
 	}
 	want := "2021-01-13T20:06:24.000Z"
 	if p.Date != want {
@@ -44,8 +44,8 @@ func TestSetTitle(t *testing.T) {
 		t.Errorf("GetRawAndDoc err: %v", err)
 	}
 	p.Raw, p.DOC = raw, doc
-	if err := SetTitle(p); err != nil {
-		t.Errorf("test SetPost err: %v", doc)
+	if err := setTitle(p); err != nil {
+		t.Errorf("test setPost err: %v", doc)
 	}
 	want := "中国俄罗斯海军进入印度洋挑战美国印太布局"
 	if p.Title != want {
@@ -60,7 +60,7 @@ func TestSetPost(t *testing.T) {
 	}
 	p.Raw, p.DOC = raw, doc
 	if err := SetPost(p); err != nil {
-		t.Errorf("test SetPost err: %v", doc)
+		t.Errorf("test setPost err: %v", doc)
 	}
 	fmt.Println(p.Title)
 	fmt.Println(p.Body)
@@ -73,6 +73,6 @@ func TestBBC(t *testing.T) {
 		t.Errorf("GetRawAndDoc err: %v", err)
 	}
 	p.Raw, p.DOC = raw, doc
-	tc, err := BBC(p)
+	tc, err := bbc(p)
 	fmt.Println(tc)
 }

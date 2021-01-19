@@ -46,6 +46,7 @@ func (f *Fetcher) LinksInit() error {
 		f.Links = append(append(append(newsFirst, newsWorld...), newsPolitical...), newsTW...)
 	case "www.bbc.com":
 		f.Links = LinksFilter(links, `.*?/zhongwen/simp/.*-\d*`)
+		KickOutLinksMatchPath(&f.Links, "institutional-38664417")
 	}
 	return nil
 }

@@ -28,7 +28,7 @@ func TestSetTitle(t *testing.T) {
 		t.Errorf("GetRawAndDoc err: %v", err)
 	}
 	p.Raw, p.DOC = raw, doc
-	if err := SetTitle(p); err != nil {
+	if err := setTitle(p); err != nil {
 		t.Errorf("test SetPost err: %v", doc)
 	}
 	want := "【英国封杀华为】五眼联盟现裂痕 新西兰唱反调：不会效仿英国｜全球"
@@ -57,6 +57,6 @@ func TestDwnews(t *testing.T) {
 		t.Errorf("GetRawAndDoc err: %v", err)
 	}
 	p.Raw, p.DOC = raw, doc
-	tc, err := Dwnews(p)
+	tc, err := dwnews(p)
 	fmt.Println(tc)
 }
