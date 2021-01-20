@@ -45,6 +45,7 @@ func (f *Fetcher) LinksInit() error {
 	case "www.cna.com.tw":
 		newsFirst := LinksFilter(links, `.*?/news/firstnews/.*`)
 		newsWorld := LinksFilter(links, `.*?/news/aopl/.*`)
+		// TODO: ignore aipl and acn but this still fetch links?
 		newsPolitical := LinksFilter(links, `.*?/news/aipl/.*`)
 		newsTW := LinksFilter(links, `.*?/news/acn/.*`)
 		f.Links = append(append(append(newsFirst, newsWorld...), newsPolitical...), newsTW...)
