@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/hi20160616/fetcher/internal/fetcher/sites/aljazeera"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/bbc"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/cna"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/dwnews"
@@ -86,7 +87,9 @@ func (p *Post) RoutePost() error {
 		p.Err = bbc.SetPost(&post)
 		*p = Post(post)
 	case "chinese.aljazeera.net":
-		// post =
+		post := aljazeera.Post(*p)
+		p.Err = aljazeera.SetPost(&post)
+		*p = Post(post)
 	default:
 		return fmt.Errorf("switch no case on: %s", p.Domain)
 	}

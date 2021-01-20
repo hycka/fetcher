@@ -25,6 +25,7 @@ func main() {
 		"https://www.voachinese.com",
 		"https://www.voachinese.com/z/1739",
 		"https://www.bbc.com/zhongwen/simp/topics/ck2l9z0em07t",
+		"https://chinese.aljazeera.net/news",
 	}
 	for {
 		fetcher.BreadthFirst(fetcher.Crawl, worklist)

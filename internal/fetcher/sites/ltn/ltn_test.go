@@ -10,7 +10,7 @@ import (
 	"github.com/hi20160616/fetcher/internal/htmldoc"
 )
 
-var p = PostFactory("https://news.ltn.com.tw/news/world/breakingnews/3277899")
+var p = PostFactory("https://news.ltn.com.tw/news/life/breakingnews/3415662")
 
 func PostFactory(rawurl string) *Post {
 	url, err := url.Parse(rawurl)
