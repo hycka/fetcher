@@ -85,10 +85,12 @@ func (p *Post) RoutePost() error {
 		post := bbc.Post(*p)
 		p.Err = bbc.SetPost(&post)
 		*p = Post(post)
+	case "chinese.aljazeera.net":
+		// post =
 	default:
 		return fmt.Errorf("switch no case on: %s", p.Domain)
 	}
-	return nil
+	return p.Err
 }
 
 // TreatPost get post things and set to `p` then save it.

@@ -38,6 +38,10 @@ func (f *Fetcher) LinksInit() error {
 		f.Links = append(append(append(newsWorld, newsChina...), realtimeWorld...), realtimeChina...)
 	case "news.ltn.com.tw":
 		f.Links = LinksFilter(links, `https://news.*/news/.*`)
+		KickOutLinksMatchPath(&f.Links, "/life/")
+		KickOutLinksMatchPath(&f.Links, "/society/")
+		KickOutLinksMatchPath(&f.Links, "/novelty/")
+		KickOutLinksMatchPath(&f.Links, "/local/")
 	case "www.cna.com.tw":
 		newsFirst := LinksFilter(links, `.*?/news/firstnews/.*`)
 		newsWorld := LinksFilter(links, `.*?/news/aopl/.*`)
@@ -47,6 +51,8 @@ func (f *Fetcher) LinksInit() error {
 	case "www.bbc.com":
 		f.Links = LinksFilter(links, `.*?/zhongwen/simp/.*-\d*`)
 		KickOutLinksMatchPath(&f.Links, "institutional")
+	case "chinese.aljazeera.net":
+		f.Links = LinksFilter(links, `.*?\/[A-Za-z]+\/\d{4}\/\d{1,2}\/\d{1,2}\/.*`)
 	}
 	return nil
 }
