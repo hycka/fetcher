@@ -15,6 +15,7 @@ import (
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/cna"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/dwnews"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/ltn"
+	"github.com/hi20160616/fetcher/internal/fetcher/sites/reuters"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/voachinese"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/zaobao"
 	"github.com/hi20160616/fetcher/internal/htmldoc"
@@ -89,6 +90,10 @@ func (p *Post) RoutePost() error {
 	case "chinese.aljazeera.net":
 		post := aljazeera.Post(*p)
 		p.Err = aljazeera.SetPost(&post)
+		*p = Post(post)
+	case "cn.reuters.com":
+		post := reuters.Post(*p)
+		p.Err = reuters.SetPost(&post)
 		*p = Post(post)
 	default:
 		return fmt.Errorf("switch no case on: %s", p.Domain)

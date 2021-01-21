@@ -15,6 +15,7 @@ import (
 type Fetcher struct {
 	Entrance *url.URL
 	Links    []string
+	Err      error
 }
 
 func NewFetcher(site string) *Fetcher {
@@ -48,7 +49,7 @@ func Crawl(_url string) {
 	f := NewFetcher(_url)
 	log.Printf("[*] Deal with: [%s]\n", _url)
 	log.Println("[*] Fetch links ...")
-	if err := f.LinksInit(); err != nil { // f.Links update to the _url website is.
+	if err := f.GetLinks(); err != nil { // f.Links update to the _url website is.
 		log.Println(err)
 		// if links cannot fetch sleep 1 minute then continue
 		time.Sleep(1 * time.Minute)

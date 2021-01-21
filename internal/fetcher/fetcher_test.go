@@ -16,7 +16,8 @@ func TestCrawl(t *testing.T) {
 			// "https://news.ltn.com.tw/list/breakingnews",
 			// "https://www.cna.com.tw/list/aall.aspx",
 			// "https://www.bbc.com/zhongwen/simp/topics/ck2l9z0em07t",
-			"https://chinese.aljazeera.net/news",
+			// "https://chinese.aljazeera.net/news",
+			"https://cn.reuters.com/assets/jsonWireNews?limit=100",
 		})
 
 		log.Println("Sleep a sec ...")

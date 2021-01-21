@@ -2,58 +2,105 @@
 package fetcher
 
 import (
-	"log"
 	"net/url"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/hi20160616/fetcher/internal/htmldoc"
 	"github.com/hi20160616/gears"
+	"github.com/pkg/errors"
 )
 
-// LinksInit fetch all links from entrance of f, save to f
-func (f *Fetcher) LinksInit() error {
-	links, err := htmldoc.ExtractLinks(f.Entrance.String())
+// GetJsonLinks get links from a url that return json data.
+func (f *Fetcher) GetLinksFromRaw() error {
+	raw, _, err := htmldoc.GetRawAndDoc(f.Entrance, 1*time.Minute)
 	if err != nil {
-		log.Printf(`can't extract links from "%s": %s`, f.Entrance.String(), err)
 		return err
 	}
-	links = gears.StrSliceDeDupl(links)
+	re := regexp.MustCompile(`"url":\s"(.*?)",`)
+	rs := re.FindAllStringSubmatch(string(raw), -1)
+	for _, item := range rs {
+		f.Links = append(f.Links, "https://"+f.Entrance.Hostname()+item[1])
+	}
+	return nil
+}
+
+func (f *Fetcher) GetLinksFromNode() error {
+	if f.Err != nil {
+		return f.Err
+	}
+	if links, err := htmldoc.ExtractLinks(f.Entrance.String()); err != nil {
+		f.Err = errors.WithMessage(err, "cannot extract links from "+f.Entrance.String())
+	} else {
+		f.Links = gears.StrSliceDeDupl(links)
+	}
+	return f.Err
+}
+
+// LinksInit fetch all links from entrance of f, save to f
+func (f *Fetcher) GetLinks() error {
 	hostname := f.Entrance.Hostname()
 	switch hostname {
 	case "www.dwnews.com":
-		f.Links = LinksFilter(links, `.*?/.*?/\d{8}/`)
+		if err := f.GetLinksFromNode(); err != nil {
+			return err
+		}
+		f.Links = LinksFilter(f.Links, `.*?/.*?/\d{8}/`)
 		KickOutLinksMatchPath(&f.Links, "zone")
 		KickOutLinksMatchPath(&f.Links, "/"+url.QueryEscape("视觉")+"/")
 	case "www.voachinese.com":
-		l1 := LinksFilter(links, `.*?/a/\d*?.html`)
-		l2 := LinksFilter(links, `.*?/a/.*-.*.html`)
+		if err := f.GetLinksFromNode(); err != nil {
+			return err
+		}
+		l1 := LinksFilter(f.Links, `.*?/a/\d*?.html`)
+		l2 := LinksFilter(f.Links, `.*?/a/.*-.*.html`)
 		f.Links = append(l1, l2...)
 		KickOutLinksMatchPath(&f.Links, "voaweishi")
 	case "www.zaobao.com":
-		newsWorld := LinksFilter(links, `.*?/news/world/.*`)
-		newsChina := LinksFilter(links, `.*?/news/china/.*`)
-		realtimeWorld := LinksFilter(links, `.*?/realtime/world/.*`)
-		realtimeChina := LinksFilter(links, `.*?/realtime/china/.*`)
+		if err := f.GetLinksFromNode(); err != nil {
+			return err
+		}
+		newsWorld := LinksFilter(f.Links, `.*?/news/world/.*`)
+		newsChina := LinksFilter(f.Links, `.*?/news/china/.*`)
+		realtimeWorld := LinksFilter(f.Links, `.*?/realtime/world/.*`)
+		realtimeChina := LinksFilter(f.Links, `.*?/realtime/china/.*`)
 		f.Links = append(append(append(newsWorld, newsChina...), realtimeWorld...), realtimeChina...)
 	case "news.ltn.com.tw":
-		f.Links = LinksFilter(links, `https://news.*/news/.*`)
+		if err := f.GetLinksFromNode(); err != nil {
+			return err
+		}
+		f.Links = LinksFilter(f.Links, `https://news.*/news/.*`)
 		KickOutLinksMatchPath(&f.Links, "/life/")
 		KickOutLinksMatchPath(&f.Links, "/society/")
 		KickOutLinksMatchPath(&f.Links, "/novelty/")
 		KickOutLinksMatchPath(&f.Links, "/local/")
 	case "www.cna.com.tw":
-		newsFirst := LinksFilter(links, `.*?/news/firstnews/.*`)
-		newsWorld := LinksFilter(links, `.*?/news/aopl/.*`)
+		if err := f.GetLinksFromNode(); err != nil {
+			return err
+		}
+		newsFirst := LinksFilter(f.Links, `.*?/news/firstnews/.*`)
+		newsWorld := LinksFilter(f.Links, `.*?/news/aopl/.*`)
 		// TODO: ignore aipl and acn but this still fetch links?
-		newsPolitical := LinksFilter(links, `.*?/news/aipl/.*`)
-		newsTW := LinksFilter(links, `.*?/news/acn/.*`)
+		newsPolitical := LinksFilter(f.Links, `.*?/news/aipl/.*`)
+		newsTW := LinksFilter(f.Links, `.*?/news/acn/.*`)
 		f.Links = append(append(append(newsFirst, newsWorld...), newsPolitical...), newsTW...)
 	case "www.bbc.com":
-		f.Links = LinksFilter(links, `.*?/zhongwen/simp/.*-\d*`)
+		if err := f.GetLinksFromNode(); err != nil {
+			return err
+		}
+		f.Links = LinksFilter(f.Links, `.*?/zhongwen/simp/.*-\d*`)
 		KickOutLinksMatchPath(&f.Links, "institutional")
 	case "chinese.aljazeera.net":
-		f.Links = LinksFilter(links, `.*?\/[A-Za-z]+\/\d{4}\/\d{1,2}\/\d{1,2}\/.*`)
+		if err := f.GetLinksFromNode(); err != nil {
+			return err
+		}
+		f.Links = LinksFilter(f.Links, `.*?\/[A-Za-z]+\/\d{4}\/\d{1,2}\/\d{1,2}\/.*`)
+	case "cn.reuters.com":
+		if err := f.GetLinksFromRaw(); err != nil {
+			return err
+		}
+		f.Links = LinksFilter(f.Links, `.*?\/article/.*?-id\S*`)
 	}
 	return nil
 }
