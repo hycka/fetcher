@@ -1,4 +1,4 @@
-package bbc
+package kabar
 
 import (
 	"errors"
@@ -41,35 +41,20 @@ func setDate(p *Post) error {
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
-	metas := htmldoc.MetasByName(p.DOC, "article:modified_time")
-	cs := []string{}
-	for _, meta := range metas {
-		for _, a := range meta.Attr {
-			if a.Key == "content" {
-				cs = append(cs, a.Val)
-			}
-		}
+	doc := htmldoc.ElementsByTagAndClass(p.DOC, "span", "article-date")
+	d := []string{}
+	if doc == nil {
+		return fmt.Errorf("there is no element <time>")
 	}
-	if len(cs) <= 0 {
-		return fmt.Errorf("bbc setData got nothing.")
+	//focus on node like "<span class="article-date"><i class="fa fa-clock-o"></i> 10/03/21 22:00 </span>"
+	if doc[0].LastChild.Data != "" {
+		d = append(d, doc[0].LastChild.Data)
 	}
-	p.Date = cs[0]
-	//UTC add 8H
-	if t, err := add8Hour(p.Date); err == nil {
-		p.Date = t
-	}
+	//transform date to RFC3339 format
+	t := strings.TrimSpace(d[0])
+	tm, _ := time.Parse("02/01/06 15:04", t)
+	p.Date = tm.Format(time.RFC3339)
 	return nil
-}
-
-//UTC + 8H
-func add8Hour(u string) (string, error) {
-	t, err := time.Parse(time.RFC3339, u)
-	if err != nil {
-		return "", err
-	}
-	h, _ := time.ParseDuration("+1h")
-	h1 := t.Add(8 * h)
-	return h1.Format(time.RFC3339), nil
 }
 
 func setTitle(p *Post) error {
@@ -79,12 +64,11 @@ func setTitle(p *Post) error {
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
-	n := htmldoc.ElementsByTag(p.DOC, "title")
-	if n == nil {
-		return fmt.Errorf("err at 69L, there is no element <title>")
+	doc := htmldoc.ElementsByTag(p.DOC, "title")
+	if doc == nil {
+		return fmt.Errorf("there is no element <title>")
 	}
-	title := n[0].FirstChild.Data
-	title = strings.ReplaceAll(title, " - BBC News 中文", "")
+	title := doc[0].FirstChild.Data
 	title = strings.TrimSpace(title)
 	gears.ReplaceIllegalChar(&title)
 	p.Title = title
@@ -98,7 +82,7 @@ func setBody(p *Post) error {
 	if p.DOC == nil {
 		return fmt.Errorf("p.DOC is nil")
 	}
-	b, err := bbc(p)
+	b, err := kabar(p)
 	if err != nil {
 		return err
 	}
@@ -111,7 +95,7 @@ func setBody(p *Post) error {
 	return nil
 }
 
-func bbc(p *Post) (string, error) {
+func kabar(p *Post) (string, error) {
 	if p.Err != nil {
 		return "", p.Err
 	}
@@ -121,24 +105,21 @@ func bbc(p *Post) (string, error) {
 	doc := p.DOC
 	body := ""
 	// Fetch content nodes
-	nodes := htmldoc.ElementsByTag(doc, "main")
+	nodes := htmldoc.ElementsByTagAndClass(doc, "div", "post-content clearfix")
 	if len(nodes) == 0 {
-		return "", errors.New("err at 111L, ElementsByTag match nothing from: " + p.URL.String())
+		nodes = htmldoc.ElementsByTagAndClass(doc, "div", "article-content-rawhtml")
 	}
-	articleDoc := nodes[0]
-	plist := htmldoc.ElementsByTag(articleDoc, "h2", "p")
-
+	if len(nodes) == 0 {
+		return "", errors.New("There is no tag named `<article>` from: " + p.URL.String())
+	}
+	plist := htmldoc.ElementsByTag(nodes[0], "p")
 	for _, v := range plist {
-		if v.FirstChild != nil {
-			if v.Parent.FirstChild.Data == "h2" {
-				body += fmt.Sprintf("\n** %s **  \n", v.FirstChild.Data)
-			} else if v.FirstChild.Data == "b" {
-				body += fmt.Sprintf("\n** %s **  \n", v.FirstChild.FirstChild.Data)
-			} else {
-				body += v.FirstChild.Data + "  \n"
-			}
+		if v.FirstChild == nil {
+			continue
+		} else {
+			body += v.FirstChild.Data + "  \n"
 		}
 	}
-	body = strings.ReplaceAll(body, "span  \n", "")
+	// body = strings.ReplaceAll(body, "span  \n", "")
 	return body, nil
 }

@@ -27,6 +27,7 @@ func main() {
 		"https://www.bbc.com/zhongwen/simp/topics/ck2l9z0em07t",
 		"https://chinese.aljazeera.net/news",
 		"https://cn.reuters.com/assets/jsonWireNews?limit=100",
+		"http://cn.kabar.kg/news/",
 	}
 	for {
 		fetcher.BreadthFirst(fetcher.Crawl, worklist)

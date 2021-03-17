@@ -54,7 +54,22 @@ func setDate(p *Post) error {
 	re := regexp.MustCompile(`"date\w*?":\s*?"(.*?)"`)
 	rs := re.FindAllStringSubmatch(raw, -1)
 	p.Date = rs[1][1] // dateModified -> rs[1][1], datePublished -> rs[0][1]
+	//UTC add 8H
+	if t, err := add8Hour(p.Date); err == nil {
+		p.Date = t
+	}
 	return nil
+}
+
+//UTC + 8H
+func add8Hour(u string) (string, error) {
+	t, err := time.Parse(time.RFC3339, u)
+	if err != nil {
+		return "", err
+	}
+	h, _ := time.ParseDuration("+1h")
+	h1 := t.Add(8 * h)
+	return h1.Format(time.RFC3339), nil
 }
 
 func setTitle(p *Post) error {
