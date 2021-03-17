@@ -11,6 +11,7 @@ import (
 
 	"github.com/hi20160616/fetcher/internal/htmldoc"
 	"github.com/hi20160616/gears"
+	"github.com/liuzl/gocc"
 	"golang.org/x/net/html"
 )
 
@@ -33,7 +34,9 @@ func SetPost(p *Post) error {
 	p.Err = setDate(p)
 	p.Err = setTitle(p)
 	p.Err = setBody(p)
+	p.Err = transform(p)
 	return p.Err
+
 }
 
 func setDate(p *Post) error {
@@ -98,8 +101,7 @@ func setTitle(p *Post) error {
 		strings.Contains(title, "| 社會 |") ||
 		strings.Contains(title, "| 生活 |") ||
 		strings.Contains(title, "| 科技 |") ||
-		strings.Contains(title, "| 證券 |") ||
-		strings.Contains(title, "| 產經 |") {
+		strings.Contains(title, "| 證券 |") {
 		return errors.New("ignore post on purpose: " + p.URL.String())
 	}
 	title = strings.ReplaceAll(title, " | 中央社 CNA", "")
@@ -163,4 +165,30 @@ func cna(p *Post) (string, error) {
 	body = re.ReplaceAllString(body, "")
 
 	return body, nil
+}
+
+//transform HANZI
+func transform(p *Post) error {
+	tw2s, err := gocc.New("tw2s")
+	if err != nil {
+		p.Err = err
+		return err
+	}
+	//transform title
+	in := p.Title
+	out, err := tw2s.Convert(in)
+	if err != nil {
+		p.Err = err
+		return err
+	}
+	p.Title = out
+	//transform body
+	in = p.Body
+	out, err = tw2s.Convert(in)
+	if err != nil {
+		p.Err = err
+		return err
+	}
+	p.Body = out
+	return p.Err
 }

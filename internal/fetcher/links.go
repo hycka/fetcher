@@ -101,6 +101,11 @@ func (f *Fetcher) GetLinks() error {
 			return err
 		}
 		f.Links = LinksFilter(f.Links, `.*?\/article/.*?-id\S*`)
+	case "cn.kabar.kg":
+		if err := f.GetLinksFromNode(); err != nil {
+			return err
+		}
+		f.Links = LinksFilter(f.Links, `.*?\/news/.*?\/`)
 	}
 	return nil
 }

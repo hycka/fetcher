@@ -14,6 +14,7 @@ import (
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/bbc"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/cna"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/dwnews"
+	"github.com/hi20160616/fetcher/internal/fetcher/sites/kabar"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/ltn"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/reuters"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/voachinese"
@@ -75,6 +76,10 @@ func (p *Post) RoutePost() error {
 		post := zaobao.Post(*p)
 		p.Err = zaobao.SetPost(&post)
 		*p = Post(post)
+	case "www.zaobao.com.sg":
+		post := zaobao.Post(*p)
+		p.Err = zaobao.SetPost(&post)
+		*p = Post(post)
 	case "news.ltn.com.tw":
 		post := ltn.Post(*p)
 		p.Err = ltn.SetPost(&post)
@@ -95,6 +100,10 @@ func (p *Post) RoutePost() error {
 		post := reuters.Post(*p)
 		p.Err = reuters.SetPost(&post)
 		*p = Post(post)
+	case "cn.kabar.kg":
+		post := kabar.Post(*p)
+		p.Err = kabar.SetPost(&post)
+		*p = Post(post)
 	default:
 		return fmt.Errorf("switch no case on: %s", p.Domain)
 	}
@@ -103,16 +112,20 @@ func (p *Post) RoutePost() error {
 
 // TreatPost get post things and set to `p` then save it.
 func (p *Post) TreatPost() error {
-	if p.Err != nil {
+	// Post prepare
+	if p.Err = p.PostInit(); p.Err != nil {
 		return p.Err
 	}
-	// Init post
-	p.Err = p.PostInit()
-	// Route and set post
-	p.Err = p.RoutePost()
-	// Save post to file
-	p.Err = p.setFilename()
+	if p.Err = p.RoutePost(); p.Err != nil {
+		return p.Err
+	}
+
+	// Post storage
+	if p.Err = p.setFilename(); p.Err != nil {
+		return p.Err
+	}
 	p.Err = p.savePost()
+
 	return p.Err
 }
 
@@ -132,7 +145,7 @@ func (p *Post) savePost() error {
 		return err
 	}
 	for _, f := range files {
-		if !f.IsDir() && strings.Contains(f.Name(), p.Title) {
+		if !f.IsDir() && p.Title != "" && strings.Contains(f.Name(), p.Title) {
 			p.Err = os.Remove(filepath.Join(folderPath, f.Name()))
 		}
 	}
