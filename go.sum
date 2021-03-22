@@ -8,6 +8,8 @@ github.com/gogs/chardet v0.0.0-20191104214054-4b6791f73a28 h1:gBeyun7mySAKWg7Fb0
 github.com/gogs/chardet v0.0.0-20191104214054-4b6791f73a28/go.mod h1:Pcatq5tYkCW2Q6yrR2VRHlbHpZ/R4/7qyL1TCF7vl14=
 github.com/hi20160616/gears v0.0.0-20201201083715-3454c2a9d4d7 h1:qbSSGe83L/cW02MmUfsnohrEjQphzKyahDhUH7OHR20=
 github.com/hi20160616/gears v0.0.0-20201201083715-3454c2a9d4d7/go.mod h1:37KXh1jB9KVMkC37xWtvbJrf97DB0pWVw86sa01BaaQ=
+github.com/hycka/gocc v0.0.0-20210320145128-878a73876dcf h1:8vachRLCHlZGATqIrQb80XfRbR+NI/nlLOiIGfGe23s=
+github.com/hycka/gocc v0.0.0-20210320145128-878a73876dcf/go.mod h1:8ImFmLT8ihcGchKe5N213USEjnFL/8RxwTtry4C7Ea0=
 github.com/liuzl/cedar-go v0.0.0-20170805034717-80a9c64b256d h1:qSmEGTgjkESUX5kPMSGJ4pcBUtYVDdkNzMrjQyvRvp0=
 github.com/liuzl/cedar-go v0.0.0-20170805034717-80a9c64b256d/go.mod h1:x7SghIWwLVcJObXbjK7S2ENsT1cAcdJcPl7dRaSFog0=
 github.com/liuzl/da v0.0.0-20180704015230-14771aad5b1d h1:hTRDIpJ1FjS9ULJuEzu69n3qTgc18eI+ztw/pJv47hs=

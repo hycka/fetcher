@@ -10,3 +10,4 @@ require (
 	github.com/pkg/errors v0.9.1
 	golang.org/x/net v0.0.0-20201110031124-69a78807bb2b
 )
+replace github.com/liuzl/gocc v0.0.0-20200216023908-f8cb162baf44 => github.com/hycka/gocc v0.0.0-20210320145128-878a73876dcf
