@@ -106,6 +106,19 @@ func (f *Fetcher) GetLinks() error {
 			return err
 		}
 		f.Links = LinksFilter(f.Links, `.*?\/news/.*?\/`)
+	case "ucpnz.co.nz":
+		if err := f.GetLinksFromNode(); err != nil {
+			return err
+		}
+		f.Links = LinksFilter(f.Links, `.*?\/[0-9]{1,4}\/[0-9]{1,2}\/[0-9]{1,2}\/.*?\/`)
+	case "www.dw.com":
+		if err := f.GetLinksFromNode(); err != nil {
+			return err
+		}
+		f.Links = LinksFilter(f.Links, `.*?\/zh\/.*`)
+		KickOutLinksMatchPath(&f.Links, "s-")
+		KickOutLinksMatchPath(&f.Links, "index-zh")
+		KickOutLinksMatchPath(&f.Links, "av-")
 	}
 	return nil
 }
