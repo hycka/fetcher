@@ -13,10 +13,12 @@ import (
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/aljazeera"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/bbc"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/cna"
+	"github.com/hi20160616/fetcher/internal/fetcher/sites/dw"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/dwnews"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/kabar"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/ltn"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/reuters"
+	"github.com/hi20160616/fetcher/internal/fetcher/sites/ucpnz"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/voachinese"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/zaobao"
 	"github.com/hi20160616/fetcher/internal/htmldoc"
@@ -103,6 +105,14 @@ func (p *Post) RoutePost() error {
 	case "cn.kabar.kg":
 		post := kabar.Post(*p)
 		p.Err = kabar.SetPost(&post)
+		*p = Post(post)
+	case "ucpnz.co.nz":
+		post := ucpnz.Post(*p)
+		p.Err = ucpnz.SetPost(&post)
+		*p = Post(post)
+	case "www.dw.com":
+		post := dw.Post(*p)
+		p.Err = dw.SetPost(&post)
 		*p = Post(post)
 	default:
 		return fmt.Errorf("switch no case on: %s", p.Domain)

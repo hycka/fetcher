@@ -28,6 +28,8 @@ func main() {
 		"https://chinese.aljazeera.net/news",
 		"https://cn.reuters.com/assets/jsonWireNews?limit=100",
 		"http://cn.kabar.kg/news/",
+		"https://ucpnz.co.nz/",
+		"https://www.dw.com/zh/%E5%9C%A8%E7%BA%BF%E6%8A%A5%E5%AF%BC/s-9058",
 	}
 	for {
 		fetcher.BreadthFirst(fetcher.Crawl, worklist)
