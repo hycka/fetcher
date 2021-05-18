@@ -33,7 +33,7 @@ func main() {
 	}
 	for {
 		fetcher.BreadthFirst(fetcher.Crawl, worklist)
-		log.Println("Sleep 5 minutes...")
-		time.Sleep(5 * time.Minute)
+		log.Println("Sleep 10 minutes...")
+		time.Sleep(7 * time.Minute)
 	}
 }

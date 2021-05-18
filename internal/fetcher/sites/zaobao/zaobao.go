@@ -4,10 +4,11 @@ import (
 	"errors"
 	"fmt"
 	"net/url"
+	"regexp"
 	"strings"
 	"time"
 
-	"github.com/hi20160616/fetcher/internal/htmldoc"
+	htmldoc "github.com/hi20160616/exhtml"
 	"github.com/hi20160616/gears"
 	"golang.org/x/net/html"
 )
@@ -38,22 +39,13 @@ func setDate(p *Post) error {
 	if p.Err != nil {
 		return p.Err
 	}
-	if p.DOC == nil {
-		return fmt.Errorf("p.DOC is nil")
+	if p.Raw == nil {
+		return errors.New("zaobao: setDate: Raw is nil")
 	}
-	metas := htmldoc.MetasByProperty(p.DOC, "article:modified_time")
-	cs := []string{}
-	for _, meta := range metas {
-		for _, a := range meta.Attr {
-			if a.Key == "content" {
-				cs = append(cs, a.Val)
-			}
-		}
-	}
-	if len(cs) <= 0 {
-		return fmt.Errorf("zaobao setData got nothing.")
-	}
-	p.Date = cs[0]
+	re := regexp.MustCompile(`"dateCreated":\s"(\d\d\d\d)-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)`)
+	rs := re.FindAllSubmatch(p.Raw, -1)[0]
+	m, d, y, hh, mm := rs[2], rs[3], rs[1], rs[4], rs[5]
+	p.Date = fmt.Sprintf("%s-%s-%sT%s:%s:00+08:00", y, m, d, hh, mm)
 	return nil
 }
 
@@ -107,7 +99,7 @@ func zaobao(p *Post) (string, error) {
 	doc := p.DOC
 	body := ""
 	// Fetch content nodes
-	nodes := htmldoc.ElementsByTagAndClass(doc, "div", "article-content-container")
+	nodes := htmldoc.ElementsByTagAndClass(doc, "div", "col-lg-12 col-12 article-container")
 	if len(nodes) == 0 {
 		nodes = htmldoc.ElementsByTagAndClass(doc, "div", "article-content-rawhtml")
 	}

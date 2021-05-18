@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hi20160616/fetcher/internal/htmldoc"
+	htmldoc "github.com/hi20160616/exhtml"
 )
 
 var p = PostFactory("https://www.zaobao.com/news/world/story20200830-1080786")
@@ -32,7 +32,8 @@ func TestSetDate(t *testing.T) {
 	if err := setDate(p); err != nil {
 		t.Errorf("test SetPost err: %v", doc)
 	}
-	want := "2020-08-30T07:48:25+08:00"
+	// want := "2020-08-30T07:48:25+08:00"
+	want := "2020-08-30T07:48:00+08:00"
 	if p.Date != want {
 		t.Errorf("\ngot: %v\nwant: %v", p.Date, want)
 	}

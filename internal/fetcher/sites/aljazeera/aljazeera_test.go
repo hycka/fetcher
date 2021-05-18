@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hi20160616/fetcher/internal/htmldoc"
+	htmldoc "github.com/hi20160616/exhtml"
 )
 
 var p = PostFactory("https://chinese.aljazeera.net/news/2021/1/20/重返核协议并支持两国方案布林肯概述拜登政府的")
