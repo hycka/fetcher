@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hi20160616/fetcher/internal/htmldoc"
+	htmldoc "github.com/hi20160616/exhtml"
 )
 
 var p = PostFactory("https://cn.reuters.com/theWire//article/china-bond-market-eu-pension-fund-0120-idCNKBS29P0XU")

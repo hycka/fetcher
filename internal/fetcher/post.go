@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	htmldoc "github.com/hi20160616/exhtml"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/aljazeera"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/bbc"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/cna"
@@ -21,7 +22,6 @@ import (
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/ucpnz"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/voachinese"
 	"github.com/hi20160616/fetcher/internal/fetcher/sites/zaobao"
-	"github.com/hi20160616/fetcher/internal/htmldoc"
 	"github.com/hi20160616/gears"
 	"golang.org/x/net/html"
 )

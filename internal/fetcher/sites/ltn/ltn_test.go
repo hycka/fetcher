@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hi20160616/fetcher/internal/htmldoc"
+	htmldoc "github.com/hi20160616/exhtml"
 )
 
 var p = PostFactory("https://news.ltn.com.tw/news/life/breakingnews/3415662")

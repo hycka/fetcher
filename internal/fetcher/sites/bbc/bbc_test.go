@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hi20160616/fetcher/internal/htmldoc"
+	htmldoc "github.com/hi20160616/exhtml"
 )
 
 func PostFactory(rawurl string) *Post {

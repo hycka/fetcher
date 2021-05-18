@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hi20160616/fetcher/internal/htmldoc"
+	htmldoc "github.com/hi20160616/exhtml"
 	"github.com/hi20160616/gears"
 	"github.com/liuzl/gocc"
 	"golang.org/x/net/html"
