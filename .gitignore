@@ -20,3 +20,4 @@ dist/
 release/
 wwwroot/
 .DS_Store
+dist/
